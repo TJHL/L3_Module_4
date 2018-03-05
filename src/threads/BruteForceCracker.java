@@ -19,13 +19,53 @@ public class BruteForceCracker {
 
 	public static void main(String[] args) {
 		System.out.println("Starting Brute Force Checker");
+	
+		Thread FourthCheck = new Thread(() -> {
+			for (int i = 0; i<250000000; i++) {
+				if(checkCode(i)) {
+					endTime = System.currentTimeMillis();
+				}
+			}
+		});
+		Thread HalfCheck = new Thread(() -> {
+			for (int i = 250000000; i<500000000; i++) {
+				if(checkCode(i)) {
+					endTime = System.currentTimeMillis();
+				}
+			}
+		});
+		Thread ThreeCheck = new Thread(() -> {
+			for (int i = 500000000; i<750000000; i++) {
+				if(checkCode(i)) {
+					endTime = System.currentTimeMillis();
+				}
+			}
+		});
+		Thread FinalCheck = new Thread(() -> {
+			for (int i = 750000000; i<1000000001; i++) {
+				if(checkCode(i)) {
+					endTime = System.currentTimeMillis();
+				}
+			}
+			
+		});
+		
 		startTime = System.currentTimeMillis();
-
-		int ctr = 0;
-		while (!checkCode(ctr++))
-			;
-
-		endTime = System.currentTimeMillis();
+		
+		FourthCheck.start();
+		HalfCheck.start();
+		ThreeCheck.start();
+		FinalCheck.start();
+		
+		try {
+			FourthCheck.join();
+			HalfCheck.join();
+			ThreeCheck.join();
+			FinalCheck.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		elapsedTime = (float) (endTime - startTime);
 		elapsedTime /= 1000.f;
 		System.out.println("Total time taken: " + elapsedTime + " seconds");

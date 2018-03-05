@@ -14,8 +14,11 @@ public class ThreadedReverseGreeting {
 
 	static void dink(int i) {
 		if (i > 1) {
-			dink(i - 1);
+			
+		Thread Stang =	new Thread(() -> {dink(i - 1);});
+		Stang.start();
+			
 		}
-		System.out.println("Hello from Thread " + i + "!");
+		System.out.println("Hello from NOThread " + i + "!");
 	}
 }
